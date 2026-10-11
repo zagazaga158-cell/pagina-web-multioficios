@@ -1,0 +1,8 @@
+# Decisiones arquitectónicas
+
+| ID | Decisión arquitectónica | Driver relacionado | Justificación | Resultado |
+|---|---|---|---|---|
+| ADR-001 | **Monolito modular** | DA01 – Escalabilidad; DA06 – Mantenibilidad | Organizar las capacidades del sistema en módulos funcionales autónomos dentro de un mismo proceso desplegable, facilitando la cohesión sin la sobrecarga operativa de microservicios. | Módulos independientes: Usuarios, Profesionales, Servicios/Oficios, Solicitudes, Órdenes de Servicio, Pagos, Notificaciones y Calificaciones. |
+| ADR-002 | **Clean Architecture** | DA06 – Mantenibilidad | Aislar completamente las reglas de negocio (validación de tarifas, cálculo de comisiones e integridad de órdenes) de los frameworks y detalles de infraestructura. | Organización estricta en 4 capas concéntricas: Dominio (puro), Aplicación (casos de uso), Infraestructura (adaptadores) y Presentación. |
+| ADR-003 | **Estrategia de caché para oficios y profesionales** | DA02 – Rendimiento | Optimizar la respuesta de consultas frecuentes del catálogo de técnicos certificados y oficios más solicitados. | Mecanismo de caché en memoria (Redis/Decorator) que alivia la carga directa a la base de datos relacional. |
+| ADR-004 | **Integración externa mediante puertos y adaptadores (Hexagonal / Adapter)** | DA04 – Integración externa | Desacoplar el caso de uso de contratación de servicios respecto a los proveedores específicos de pago (Niubiz/Stripe) y mensajería (WhatsApp/SMS). | Interfaces contractuales en el dominio (`ProcesadorPagos`, `NotificadorCliente`) e implementaciones reemplazables en infraestructura. |
